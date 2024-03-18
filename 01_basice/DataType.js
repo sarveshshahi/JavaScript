@@ -25,3 +25,11 @@ Null
 UNdefined
 Symbol
  */
+
+const name= null;
+console.log(typeof(null)); // object
+const city = undefined;
+console.log(typeof(city)); //undefind
+
+
+
