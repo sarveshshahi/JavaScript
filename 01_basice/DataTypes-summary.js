@@ -19,10 +19,30 @@ const bigNumber=98765432n
 
 const heros=["sktiman","naagraj","doga"]
 let muobj={
-    name:sarvesh,
+    name:"sarvesh",
     age: 22,
 }
 
 const myFunction=function(){
     console.log("hello Wold")
 }
+
+let myname="sarveshshahi";
+let anothername=myname;
+console.log(anothername);
+
+anothername="aman"
+console.log(anothername)
+
+console.log(myname) 
+
+let userone={
+    email:"sarveshshahi@gmai.com",
+    upi:"987666@ybl",
+}
+
+let usertwo=userone;
+usertwo.email="amanshahi@gmail.com";
+usertwo.upi="123456@ybl";
+console.log(usertwo)
+console.log(userone)
