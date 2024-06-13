@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul class="language">
+        <li>
+            JavaScript
+        </li>
+    </ul>
+    <script>
+        function addLanguage(lang){
+            const li=document.createElement('li')
+            li.innerHTML=`${lang}`
+            document.querySelector(".language").appendChild(li)
+        }
+        addLanguage("pythone")
+        addLanguage("c++")
+
+        function addoptlang(lang){
+            const li=document.createElement('li')
+            li.appendChild(document.createTextNode(lang))
+            document.querySelector('.language').appendChild(li)
+        }
+        addoptlang("go")
+        addoptlang("hike")
+        ///////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////edit/////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
+        const secondlang=document.querySelector("li:nth-child(2)")
+        // secondlang.innerHTML='mojo'
+        secondlang.textContent="vigo"
+    </script>
+</body>
+</html>
