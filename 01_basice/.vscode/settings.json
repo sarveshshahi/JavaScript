@@ -1,0 +1,6 @@
+{
+    "pieces.cloudCapabilities": "Blended",
+    "pieces.telemetry": true,
+    "editor.acceptSuggestionOnEnter": "on",
+    "liveServer.settings.port": 5501
+}
