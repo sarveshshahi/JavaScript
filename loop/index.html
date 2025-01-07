@@ -1,51 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Real-time Input Display</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
-    input {
-      width: 300px;
-      padding: 10px;
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-    .output {
-      font-size: 18px;
-      color: #333;
-    }
-    .error {
-      color: red;
-      font-size: 14px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Center Locations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .email-header {
+            background-color: #009688;
+            padding: 10px;
+            color: #fff;
+            text-align: center;
+        }
+        .email-body {
+            padding: 10px;
+            line-height: 1.6;
+        }
+        .service-center-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 9px;
+        }
+        .service-center-table th, .service-center-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .service-center-table th {
+            background-color: #009688;
+            color: white;
+        }
+        .footer {
+            padding: 10px;
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            background-color: #f4f4f4;
+        }
+        @media only screen and (max-width: 600px) {
+            .email-body, .footer {
+                padding: 5px;
+            }
+            .service-center-table th, .service-center-table td {
+                padding: 5px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>Real-time Input Display</h1>
-  <input type="text" id="userInput" placeholder="Enter exactly 10 characters" maxlength="10" />
-  <div class="output" id="displayOutput"></div>
-  <div class="error" id="errorOutput"></div>
+    <div class="email-container">
+        <div class="email-header">
+            <h2>Service Center Locations</h2>
+        </div>
+        <div class="email-body">
+            <p>Dear Customer,</p>
+            <p>We are pleased to share the details of service centers in your city. Below are the locations of service centers for your reference:</p>
 
-  <script>
-    const inputField = document.getElementById('userInput');
-    const outputDiv = document.getElementById('displayOutput');
-    const errorDiv = document.getElementById('errorOutput');
+            <table class="service-center-table" id="serviceCenterTable">
+                <tr>
+                    <th>Service Center</th>
+                    <th>Contact Person</th>
+                    <th>Contact No</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Pincode</th>
+                    <th>Address</th>
+                </tr>
+            </table>
 
-    inputField.addEventListener('input', () => {
-      const value = inputField.value;
-      if (/^[a-zA-Z0-9]{10}$/.test(value)) {
-        outputDiv.textContent = value;
-        errorDiv.textContent = '';
-      } else {
-        outputDiv.textContent = '';
-        errorDiv.textContent = 'Please enter exactly 10 characters (letters or digits).';
-      }
-    });
-  </script>
+            <p>Thank you for choosing our services!</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2025 Service Center | All Rights Reserved</p>
+        </div>
+    </div>
+
+    <script>
+        const serviceCenters = [
+            {
+                "serviceCenter": "Center 1",
+                "contactPerson": "John Doe",
+                "contactNo": "1234567890",
+                "city": "City A",
+                "state": "State A",
+                "pincode": "123456",
+                "address": "123 Main St, City A, State A"
+            },
+            {
+                "serviceCenter": "Center 2",
+                "contactPerson": "Jane Smith",
+                "contactNo": "0987654321",
+                "city": "City B",
+                "state": "State B",
+                "pincode": "654321",
+                "address": "456 Elm St, City B, State B"
+            }
+            // Add more service centers as needed
+        ];
+
+        const table = document.getElementById('serviceCenterTable');
+
+        serviceCenters.forEach(center => {
+            const row = table.insertRow();
+            row.insertCell(0).textContent = center.serviceCenter;
+            row.insertCell(1).textContent = center.contactPerson;
+            row.insertCell(2).textContent = center.contactNo;
+            row.insertCell(3).textContent = center.city;
+            row.insertCell(4).textContent = center.state;
+            row.insertCell(5).textContent = center.pincode;
+            row.insertCell(6).textContent = center.address;
+        });
+    </script>
 </body>
 </html>

@@ -281,13 +281,13 @@
 //  Use map and filter to group the products by category, returning an object where the keys 
 // are categories and the values are arrays of product names.
 // 
-let products = [
-    { name: 'Laptop', category: 'Electronics' },
-    { name: 'Phone', category: 'Electronics' },
-    { name: 'Shirt', category: 'Clothing' },
-    { name: 'Shoes', category: 'Clothing' },
-    { name: 'Washing Machine', category: 'Home Appliances' }
-  ];
+// let products = [
+//     { name: 'Laptop', category: 'Electronics' },
+//     { name: 'Phone', category: 'Electronics' },
+//     { name: 'Shirt', category: 'Clothing' },
+//     { name: 'Shoes', category: 'Clothing' },
+//     { name: 'Washing Machine', category: 'Home Appliances' }
+//   ];
   
   // {
   //   Fruit : ["Apple", "Banana"],
@@ -310,10 +310,24 @@ let products = [
   
   // console.log(groupedProducts);
   
-
-
-  let uniqueCategories = [...new Set(products.map(product => product.category))];
-
-console.log(uniqueCategories);
-
-  // console.log(uniqueCategories)
+  const products = [
+    { name: 'Laptop', category: 'Electronics' },
+    { name: 'Phone', category: 'Electronics' },
+    { name: 'Shirt', category: 'Clothing' },
+    { name: 'Shoes', category: 'Clothing' },
+    { name: 'Washing Machine', category: 'Home Appliances' }
+  ];
+  
+  // Step 1: Get unique categories using Set
+  const uniqueCategories = [...new Set(products.map(product => product.category))];
+  
+  // Step 2: Group products by category
+  const groupedProducts = uniqueCategories.reduce((acc, category) => {
+    acc[category] = products
+      .filter(product => product.category === category) // Filter products by category
+      .map(product => product.name); // Extract product names
+    return acc;
+  }, {});
+  
+  console.log(groupedProducts);
+  
