@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real-time Input Display</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    input {
+      width: 300px;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    .output {
+      font-size: 18px;
+      color: #333;
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Real-time Input Display</h1>
+  <input type="text" id="userInput" placeholder="Enter exactly 10 characters" maxlength="10" />
+  <div class="output" id="displayOutput"></div>
+  <div class="error" id="errorOutput"></div>
+
+  <script>
+    const inputField = document.getElementById('userInput');
+    const outputDiv = document.getElementById('displayOutput');
+    const errorDiv = document.getElementById('errorOutput');
+
+    inputField.addEventListener('input', () => {
+      const value = inputField.value;
+      if (/^[a-zA-Z0-9]{10}$/.test(value)) {
+        outputDiv.textContent = value;
+        errorDiv.textContent = '';
+      } else {
+        outputDiv.textContent = '';
+        errorDiv.textContent = 'Please enter exactly 10 characters (letters or digits).';
+      }
+    });
+  </script>
+</body>
+</html>
