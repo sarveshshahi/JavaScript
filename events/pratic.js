@@ -198,9 +198,6 @@ frappe.ui.form.on('Registration', {
         if (!validate_customer_name(frm)) {
             frappe.validated = false; // Prevent save if customer name validation fails
         }
-        if (!isValidEmail(frm)) {
-            frappe.validated = false; // Prevent save if customer name validation fails
-        }
     },
 
     before_save: function (frm) {
@@ -228,9 +225,6 @@ frappe.ui.form.on('Registration', {
 
     customer_name: function(frm) {
         debounce(validate_customer_name, 1000)(frm);
-    },
-    primary_mail: function(frm) {
-        debounce(isValidEmail, 1000)(frm);
     }
 });
 
@@ -319,10 +313,6 @@ function validate_customer_name(frm) {
         frm.fields_dict.customer_name.$wrapper.find('input').removeClass('error');
         return true;
     }
-}
-
-function isValidEmail(primary_mail) {
-    return primary_mail.includes('@'); 
 }
 
 function debounce(func, wait) {
