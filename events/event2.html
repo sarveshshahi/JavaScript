@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Selector with Google Translate</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .language-icon {
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            margin: 10px;
+            border: 2px solid transparent;
+            border-radius: 5px;
+        }
+        .language-icon:hover {
+            border-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to My Website</h1>
+    <p>This is an example of how to use Google Translate for language switching.</p>
+
+    <div>
+        <!-- Language Icons -->
+        <img src="https://flagcdn.com/w40/us.png" alt="English" class="language-icon" onclick="translatePage('en')">
+        <img src="https://flagcdn.com/w40/fr.png" alt="French" class="language-icon" onclick="translatePage('fr')">
+        <img src="https://flagcdn.com/w40/es.png" alt="Spanish" class="language-icon" onclick="translatePage('es')">
+    </div>
+
+    <!-- Google Translate Element -->
+    <div id="google_translate_element" style="display: none;"></div>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+        }
+
+        function translatePage(language) {
+            const frame = document.querySelector('iframe.goog-te-menu-frame');
+            if (frame) {
+                const langElements = frame.contentDocument.querySelectorAll('.goog-te-menu2-item span.text');
+                langElements.forEach((el) => {
+                    if (el.textContent.trim().toLowerCase() === language) {
+                        el.click();
+                    }
+                });
+            } else {
+                alert('Google Translate is still loading. Please try again in a moment.');
+            }
+        }
+    </script>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

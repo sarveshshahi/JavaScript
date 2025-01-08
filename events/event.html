@@ -41,12 +41,12 @@
         let buttoncounter=0;
 
         buttoncontainer.addEventListener('click', (event) => {
-            if (event.target && event.target.tagName === 'BUTTON' && event.target.classList.contains('clickMe')) {
+            if (event.target && event.target.tagName === 'BUTTON' && event.target.classList.contains('clickme')) {
                 const index = event.target.dataset.index;
                 alert(`Button ${index} clicked`);
-
             }
         });
+
         addbutton.addEventListener("click",function(){
             buttoncounter++;
             const newbutton=document.createElement("button")
