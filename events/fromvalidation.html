@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Validation Form</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f3f6f7;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      #validationForm {
+        background-color: #fff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+      }
+
+      #validationForm div {
+        margin-bottom: 1.5rem;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+        color: #333;
+      }
+
+      input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+      }
+
+      input:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+      }
+
+      p {
+        margin: 0.25rem 0 0;
+        font-size: 0.875rem;
+        color: red;
+        height: 1rem;
+        /* Ensure consistent spacing */
+      }
+
+      button {
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 1rem;
+        font-weight: bold;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+        cursor: not-allowed;
+        transition: background-color 0.3s ease;
+      }
+
+      button:enabled {
+        background-color: #0056b3;
+        cursor: pointer;
+      }
+
+      button:hover:enabled {
+        background-color: #004085;
+      }
+    </style>
+  </head>
+
+  <body>
+    <form id="validationForm">
+      <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" placeholder="Enter your name" />
+        <p id="nameError"></p>
+      </div>
+      <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" placeholder="Enter your email" />
+        <p id="emailError"></p>
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          placeholder="Enter your password"
+        />
+        <p id="passwordError"></p>
+      </div>
+      <button type="submit" disabled>Submit</button>
+    </form>
+  </body>
+  <script>
+    const name = document.getElementById("name");
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const submit = document.getElementById("submit");
+    const form = document.getElementById("validationForm");
+
+    const nameerr = document.getElementById("nameError");
+    const emailerr = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
+
+    const Validation = () => {
+      let isvalid = true;
+      if (name.value.lenght < 3) {
+        nameerr.textContent = "name must be 3 charator";
+        isvalid = false;
+      } else {
+        nameerr.textContent = "";
+      }
+
+      const emailformate =
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (!emailformate.test(email.value)) {
+        emailerr.textContent = "plz enter valid email";
+        isvalid = false;
+      } else {
+        emailerr.textContent = "";
+      }
+
+      if (password.value.lenght < 6) {
+        passwordError.textContent = "plz enter 6 degit password";
+        isvalid = false;
+      } else {
+        passwordError.textContent = "";
+      }
+      submitButton.disabled = !iszValid;
+    };
+    [name, email, password].forEach((input) => {
+      input.addEventListener("input", Validation);
+    });
+  </script>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Card</title>
+    <style>
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+        }
+        .card h2 {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .column {
+            width: 48%;
+            display: flex;
+            align-items: center;
+        }
+        .column i {
+            font-size: 1.5rem;
+            color: #2563eb;
+            margin-right: 15px;
+        }
+        .column p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #4b5563;
+        }
+        .column .info-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+    </style>
+</head>
+<body>
+<div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f3f4f6, #e2e8f0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;">
+  <div class="card">
+    <div class="row">
+      <div class="column">
+        <i class="fas fa-building"></i>
+        <div>
+          <p>Company Name</p>
+          <p class="info-value" id="company-name">ABC Pvt. Ltd.</p>
+        </div>
+      </div>
+      <div class="column">
+        <i class="fas fa-user"></i>
+        <div>
+          <p>Contact Person</p>
+          <p class="info-value" id="contact-person">John Doe</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="column">
+        <i class="fas fa-phone-alt"></i>
+        <div>
+          <p>Contact No</p>
+          <p class="info-value" id="contact-no">+1 234 567 890</p>
+        </div>
+      </div>
+      <div class="column">
+        <i class="fas fa-city"></i>
+        <div>
+          <p>City</p>
+          <p class="info-value" id="city">New York</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="column">
+        <i class="fas fa-map-marker-alt"></i>
+        <div>
+          <p>State</p>
+          <p class="info-value" id="state">New York</p>
+        </div>
+      </div>
+      <div class="column">
+        <i class="fas fa-home"></i>
+        <div>
+          <p>Address</p>
+          <p class="info-value" id="address">1234 Elm Street, Apt 567</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    async function fetchData() {
+        const city = document.getElementById('city').value;
+        const state = document.getElementById('state').value;
+
+        frappe.call({
+            method: "rhinotech.rhinotech.doctype.registration.registration.populate_data_in_web_page",
+            args: {
+                city: city,
+                state: state
+            },
+            callback: function(r) {
+                const data = r.message[0]; // Assuming the first item is what you want to display
+                document.getElementById('company-name').textContent = data.company_name;
+                document.getElementById('contact-person').textContent = data.primary_contact_person;
+                document.getElementById('contact-no').textContent = data.primary_contact_no;
+                document.getElementById('city').textContent = data.city;
+                document.getElementById('state').textContent = data.state;
+                document.getElementById('address').textContent = data.address;
+            },
+            error: function(err) {
+                console.error('Error fetching data:', err);
+                alert('Failed to fetch data. Please try again later.');
+            }
+        });
+    }
+
+    window.onload = fetchData; // Call fetchData when the page loads
+</script>
+
+</body>
+</html>

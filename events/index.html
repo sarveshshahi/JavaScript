@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Cards</title>
+  <link rel="stylesheet" href="styles.css">
+    <style>
+      .card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            /*max-width: 600px;*/
+            padding: 30px;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+        }
+        .card h2 {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .column {
+            width: 48%;
+            display: flex;
+            align-items: center;
+        }
+        .column i {
+            font-size: 1.5rem;
+            color: #2563eb;
+            margin-right: 15px;
+        }
+        .column p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #4b5563;
+        }
+        .column .info-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        .card-header {
+      display: flex;
+      background-color: #dae2eb;
+      color: #fff;
+      padding: 5px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .input-group {
+      margin: 8px 10px;
+      text-align: left;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .input-group input {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f9f9f9;
+      font-size: 12px;
+      color: #333;
+      margin-top: 4px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 12px;
+      color: #333;
+      margin-bottom: 4px;
+    }
+
+    button {
+      padding: 8px 16px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin: 4px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+  </style>
+</head>
+<body>
+  <div style="font-family: Arial, sans-serif; background-color: #f0f4f8; display: flex; justify-content: center; align-items: center; margin: 0;">
+    <div class="card">
+      <div class="card-header">
+        <div class="input-group">
+          <label for="city">City</label>
+          <input type="text" id="city" name="city">
+        </div>
+        <div class="input-group">
+          <label for="state">State</label>
+          <input type="text" id="state" name="state">
+        </div>
+        <button id="submit-button" style="margin-left: 20px;">Submit</button>
+      </div>
+      <div class="card-body" id="card-body">
+        <!-- Dynamic cards will be appended here -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function fetchData() {
+      const city = document.getElementById('city').value;
+      const state = document.getElementById('state').value;
+
+      frappe.call({
+        method: "rhinotech.rhinotech.doctype.registration.registration.populate_data_in_web_page",
+        args: {
+          city: city,
+          state: state
+        },
+        callback: function(r) {
+          const cardBody = document.getElementById('card-body');
+          cardBody.innerHTML = ''; // Clear existing content
+
+          r.message.forEach(data => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+              <div class="row">
+                <div class="column">
+                  <i class="fas fa-building"></i>
+                  <div>
+                    <p>Company Name</p>
+                    <p class="info-value">${data.company_name}</p>
+                  </div>
+                </div>
+                <div class="column">
+                  <i class="fas fa-user"></i>
+                  <div>
+                    <p>Contact Person</p>
+                    <p class="info-value">${data.primary_contact_person}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="column">
+                  <i class="fas fa-phone-alt"></i>
+                  <div>
+                    <p>Contact No</p>
+                    <p class="info-value">${data.primary_contact_no}</p>
+                  </div>
+                </div>
+                <div class="column">
+                  <i class="fas fa-city"></i>
+                  <div>
+                    <p>City</p>
+                    <p class="info-value">${data.city}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="column">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <div>
+                    <p>State</p>
+                    <p class="info-value">${data.state}</p>
+                  </div>
+                </div>
+                <div class="column">
+                  <i class="fas fa-home"></i>
+                  <div>
+                    <p>Address</p>
+                    <p class="info-value">${data.address}</p>
+                  </div>
+                </div>
+              </div>
+            `;
+            cardBody.appendChild(card);
+          });
+        },
+        error: function(err) {
+          console.error('Error fetching data:', err);
+          alert('Failed to fetch data. Please try again later.');
+        }
+      });
+    }
+
+    document.getElementById('submit-button').addEventListener('click', fetchData);
+  </script>
+</body>
+</html>

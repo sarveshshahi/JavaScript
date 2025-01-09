@@ -1,63 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Language Selector with Google Translate</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-        }
-        .language-icon {
-            cursor: pointer;
-            width: 50px;
-            height: 50px;
-            margin: 10px;
-            border: 2px solid transparent;
-            border-radius: 5px;
-        }
-        .language-icon:hover {
-            border-color: #007bff;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keyboard Event Tracker</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Welcome to My Website</h1>
-    <p>This is an example of how to use Google Translate for language switching.</p>
-
-    <div>
-        <!-- Language Icons -->
-        <img src="https://flagcdn.com/w40/us.png" alt="English" class="language-icon" onclick="translatePage('en')">
-        <img src="https://flagcdn.com/w40/fr.png" alt="French" class="language-icon" onclick="translatePage('fr')">
-        <img src="https://flagcdn.com/w40/es.png" alt="Spanish" class="language-icon" onclick="translatePage('es')">
+<body class="bg-light">
+  <div class="container text-center my-5">
+    <h1 class="mb-4 text-primary">Keyboard Event Tracker</h1>
+    <div class="card shadow-lg rounded-3 mx-auto" style="max-width: 600px;">
+      <div class="card-body p-4">
+        <input type="text" id="inputBox" class="form-control form-control-lg mb-4 border-primary" placeholder="Type something here..." />
+        <div class="text-start">
+          <p class="mb-2"><strong class="text-primary">Last key pressed:</strong> <span id="lastKey" class="fw-bold">None</span></p>
+          <p class="mb-2"><strong class="text-primary">Shift key held:</strong> <span id="shiftKey" class="fw-bold">No</span></p>
+          <p><strong class="text-primary">Total keys pressed:</strong> <span id="keyCount" class="fw-bold">0</span></p>
+        </div>
+      </div>
     </div>
+  </div>
+  <script>
+    const keytotal=document.querySelector("#keyCount")
+    const inputbox=document.querySelector("#inputBox");
+    const lastKey=document.querySelector("#lastKey")
+    const shiftKey=document.querySelector("#shiftKey")
+    let lastkey="";
+    let shiftheld=false;
+    let keycount=0;
 
-    <!-- Google Translate Element -->
-    <div id="google_translate_element" style="display: none;"></div>
+    inputbox.addEventListener("keydown",function(e){
+        keycount++;
+        lastkey=e.key;
+        shiftheld=e.shiftKey
+        output();
+        
+    },false);
 
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+    function output(){
+        keytotal.textContent=keycount
+        lastKey.textContent=lastkey
+        if(shiftheld){
+            shiftKey.textContent="yes"
+        }else{
+            shiftKey.textContent="no"  
         }
+    }
 
-        function translatePage(language) {
-            const frame = document.querySelector('iframe.goog-te-menu-frame');
-            if (frame) {
-                const langElements = frame.contentDocument.querySelectorAll('.goog-te-menu2-item span.text');
-                langElements.forEach((el) => {
-                    if (el.textContent.trim().toLowerCase() === language) {
-                        el.click();
-                    }
-                });
-            } else {
-                alert('Google Translate is still loading. Please try again in a moment.');
-            }
-        }
-    </script>
 
-    <!-- Google Translate Script -->
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  </script>
+  
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

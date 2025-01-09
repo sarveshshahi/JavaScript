@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+        }
+        #custom-menu {
+            display: none;
+            position: absolute;
+            background: #fff;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        #custom-menu ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        #custom-menu li {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+        #custom-menu li:hover {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div id="traget" style="width: 300px; height: 300px; background-color: rgb(222, 241, 241);"></div>
+    <div id="custom-menu">
+        <ul>
+            <li>option 1</li>
+            <li>option 2</li>
+        </ul>
+    </div>
+    <script>
+        const traget = document.querySelector("#traget");
+        const menu = document.querySelector("#custom-menu");
+        
+        traget.addEventListener("contextmenu", (e) => {
+            e.preventDefault();
+            menu.style.display = "block";
+            menu.style.left = `${e.clientX}px`;
+            menu.style.top = `${e.clientY}px`;
+        }, false);
+        
+        menu.addEventListener("click", (e) => {
+            // if (e.target.tagName === 'LI') {
+                console.log(e.target.textContent);
+            // }
+        });
+        
+        document.addEventListener("click", (e) => {
+            menu.style.display = "none";
+        });
+    </script>
+</body>
+</html>

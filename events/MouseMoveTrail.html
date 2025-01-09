@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mouse Move Trail</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      background-color: #f0f0f0;
+    }
+    .trail {
+      position: absolute;
+      border-radius: 50%;
+      width: 10px;
+      height: 10px;
+      background-color: rgba(0, 0, 255, 0.7);
+      pointer-events: none;
+      animation: fadeOut 1s forwards;
+    }
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: scale(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    document.addEventListener('mousemove', function(event) {
+      const circle = document.createElement('div');
+      circle.classList.add('trail');
+      
+      // Set position of the circle to the mouse position
+      circle.style.left = `${event.pageX - 5}px`;  // -5 to center the circle
+      circle.style.top = `${event.pageY - 5}px`;   // -5 to center the circle
+      
+      // Append the circle to the body
+      document.body.appendChild(circle);
+
+      // Remove the circle after the animation is complete (1 second)
+      setTimeout(() => {
+        circle.remove();
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
