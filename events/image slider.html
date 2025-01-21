@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Slider</title>
+  <style>
+    /* Basic reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f3f3f3;
+    }
+
+    /* Slider container */
+    .slider-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    /* Image styling */
+    #slider-img {
+      width: 500px;
+      height: auto;
+      margin: 0 20px;
+      border-radius: 8px;
+    }
+
+    /* Button styling */
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <div class="slider-container">
+    <button id="prev-btn">Previous</button>
+    <img id="slider-img" src="https://www.w3schools.com/w3images/fjords.jpg" alt="Slider Image">
+    <button id="next-btn">Next</button>
+  </div>
+
+  <script>
+    // Array of image sources (W3Schools image links)
+    const images = [
+      "https://www.w3schools.com/w3images/fjords.jpg", 
+      "https://www.w3schools.com/w3images/lights.jpg", 
+      "https://www.w3schools.com/w3images/mountains.jpg"
+    ];
+    let currentIndex = 0; // Start with the first image
+
+    // Get DOM elements
+    const imgElement = document.getElementById("slider-img");
+    const nextBtn = document.getElementById("next-btn");
+    const prevBtn = document.getElementById("prev-btn");
+
+    // Function to update the image based on currentIndex
+    function updateImage() {
+      imgElement.src = images[currentIndex];
+    }
+
+    // Event listener for "Next" button
+    nextBtn.addEventListener("click", () => {
+      // Move to the next image and loop back to the first image after the last
+      currentIndex = (currentIndex + 1) % images.length;
+      updateImage();
+    });
+
+    // Event listener for "Previous" button
+    prevBtn.addEventListener("click", () => {
+      // Move to the previous image and loop back to the last image before the first
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      updateImage();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drag and Drop List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0 0 20px;
+    }
+
+    li {
+      padding: 10px;
+      margin: 5px 0;
+      background-color: #f3f3f3;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      cursor: grab;
+    }
+
+    li.dragging {
+      opacity: 0.5;
+      background-color: #ddd;
+    }
+
+    li.over {
+      border: 2px dashed #4CAF50;
+    }
+
+    .updated-order {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Drag and Drop List</h1>
+  <ul id="draggable-list">
+    <li draggable="true" data-index="0">Item 1</li>
+    <li draggable="true" data-index="1">Item 2</li>
+    <li draggable="true" data-index="2">Item 3</li>
+    <li draggable="true" data-index="3">Item 4</li>
+  </ul>
+
+  <div class="updated-order">
+    Updated Order: <span id="order-display">Item 1, Item 2, Item 3, Item 4</span>
+  </div>
+
+  <script>
+    const list = document.getElementById("draggable-list");
+    const orderDisplay = document.getElementById("order-display");
+    let draggedItemIndex = null;
+
+    // Drag event listeners
+    list.addEventListener("dragstart", (e) => {
+      draggedItemIndex = +e.target.getAttribute("data-index");
+      e.target.classList.add("dragging");
+    });
+
+    list.addEventListener("dragend", (e) => {
+      e.target.classList.remove("dragging");
+    });
+
+    list.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      const afterElement = getDragAfterElement(list, e.clientY);
+      const draggingItem = document.querySelector(".dragging");
+      if (afterElement == null) {
+        list.appendChild(draggingItem);
+      } else {
+        list.insertBefore(draggingItem, afterElement);
+      }
+    });
+
+    list.addEventListener("drop", () => {
+      updateOrder();
+    });
+
+    // Helper function to determine the element to insert after
+    function getDragAfterElement(container, y) {
+      const draggableElements = [...container.querySelectorAll("li:not(.dragging)")];
+      return draggableElements.reduce(
+        (closest, child) => {
+          const box = child.getBoundingClientRect();
+          const offset = y - box.top - box.height / 2;
+          if (offset < 0 && offset > closest.offset) {
+            return { offset, element: child };
+          } else {
+            return closest;
+          }
+        },
+        { offset: Number.NEGATIVE_INFINITY }
+      ).element;
+    }
+
+    // Update the displayed order
+    function updateOrder() {
+      const items = [...list.children];
+      const newOrder = items.map((item) => item.textContent).join(", ");
+      orderDisplay.textContent = newOrder;
+
+      // Update data-index attributes
+      items.forEach((item, index) => item.setAttribute("data-index", index));
+    }
+  </script>
+</body>
+</html>

@@ -103,14 +103,14 @@
         />
         <p id="passwordError"></p>
       </div>
-      <button type="submit" disabled>Submit</button>
+      <button type="submit" id="submit" disabled>Submit</button>
     </form>
   </body>
   <script>
     const name = document.getElementById("name");
     const email = document.getElementById("email");
     const password = document.getElementById("password");
-    const submit = document.getElementById("submit");
+    const submitbtn = document.getElementById("submit");
     const form = document.getElementById("validationForm");
 
     const nameerr = document.getElementById("nameError");
@@ -119,7 +119,9 @@
 
     const Validation = () => {
       let isvalid = true;
-      if (name.value.lenght < 3) {
+      console.log(name.value)
+      if (name.value.length < 3) {
+        console.log(name.value)
         nameerr.textContent = "name must be 3 charator";
         isvalid = false;
       } else {
@@ -135,16 +137,22 @@
         emailerr.textContent = "";
       }
 
-      if (password.value.lenght < 6) {
+      if (password.value.length < 6) {
         passwordError.textContent = "plz enter 6 degit password";
         isvalid = false;
       } else {
         passwordError.textContent = "";
       }
-      submitButton.disabled = !iszValid;
+      submitbtn.disabled = !isvalid;
     };
     [name, email, password].forEach((input) => {
       input.addEventListener("input", Validation);
     });
+
+    form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    alert("Form submitted successfully!");
+  });
+
   </script>
 </html>

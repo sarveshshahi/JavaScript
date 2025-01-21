@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stopwatch</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-top: 50px;
+      }
+      #timer {
+        font-size: 2rem;
+        margin-bottom: 20px;
+      }
+      button {
+        padding: 10px 20px;
+        margin: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="timer">0</div>
+    <button id="start">Start</button>
+    <button id="pause">Pause</button>
+    <button id="reset">Reset</button>
+
+    <script>
+      let elapsedTime = 0; // Track elapsed time
+      let intervalId = null; // Store the interval ID
+
+      const timerDisplay = document.getElementById("timer");
+      const startButton = document.getElementById("start");
+      const pauseButton = document.getElementById("pause");
+      const resetButton = document.getElementById("reset");
+
+      // Start button functionality
+      startButton.addEventListener("click", () => {
+        if (!intervalId) {
+          // Prevent multiple intervals
+          intervalId = setInterval(() => {
+            elapsedTime++;
+            timerDisplay.textContent = elapsedTime;
+          }, 1000);
+        }
+      });
+
+      // Pause button functionality
+      pauseButton.addEventListener("click", () => {
+        clearInterval(intervalId); // Stop the interval
+        intervalId = null; // Reset the interval ID
+      });
+
+      // Reset button functionality
+      resetButton.addEventListener("click", () => {
+        clearInterval(intervalId); // Stop the interval
+        intervalId = null; // Reset the interval ID
+        elapsedTime = 0; // Reset elapsed time
+        timerDisplay.textContent = elapsedTime; // Update the display
+      });
+    </script>
+  </body>
+</html>
