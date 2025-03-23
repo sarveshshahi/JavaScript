@@ -3,129 +3,284 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Service Center Locations</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
+    <title>Document</title>
+   <style>
+    /* Existing styles */
+    body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        font-size:10px;
+    }
+    .header {
+        text-align: center;
+        margin-top: 10px;
+    }
+    h3 {
+        margin: 0;
+    }
+    h6 {
+        margin: 0;
+        font-size: 9px;
+    }
+    .print-format {
+        padding: 0 !important;
+        margin:0 !important;
+        width:740px;
+        font-size:10px !important;
+    }
+    
+    .main {
+        border: 2px solid black;
+        display: flex;
+        flex-direction: row;
+    }
+    .first {
+        display: flex;
+        flex-direction: row;
+        border: 2px solid black;
+        justify-content:space-between;
+    }
+    .Main-class-rajesh {
+        display: flex;
+        border: 2px solid black;
+    }
+    .column {
+        width:34%;
+       
+        padding-left: 10px;
+    }
+    .Supply{
+         border-left: 2px solid black;
+  border-right: 2px solid black;
+  border-bottom: 2px solid black;
+    }
+
+    /* Add this for print-specific styles */
+    @media print {
+        .main, .first, .Main-class-rajesh, .column {
+            border: 1px solid black !important; /* Ensure borders are visible */
         }
-        .email-container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 0;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+        img {
+            max-width: 100%; /* Ensure images scale properly */
         }
-        .email-header {
-            background-color: #009688;
-            padding: 10px;
-            color: #fff;
-            text-align: center;
-        }
-        .email-body {
-            padding: 10px;
-            line-height: 1.6;
-        }
-        .service-center-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            font-size: 9px;
-        }
-        .service-center-table th, .service-center-table td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-        .service-center-table th {
-            background-color: #009688;
-            color: white;
-        }
-        .footer {
-            padding: 10px;
-            text-align: center;
-            font-size: 12px;
-            color: #888;
-            background-color: #f4f4f4;
-        }
-        @media only screen and (max-width: 600px) {
-            .email-body, .footer {
-                padding: 5px;
-            }
-            .service-center-table th, .service-center-table td {
-                padding: 5px;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
+ {% if doc.is_return == 0  and doc.custom_is_proforma_invoice!= 1 and doc.is_debit_note!=1%}
+
 <body>
-    <div class="email-container">
-        <div class="email-header">
-            <h2>Service Center Locations</h2>
+     
+    <div class="container-full">
+        <div class="header">
+            <h3>GST INVOICE</h3>
+            <h6>(UNDER SEC. 31 OF CGST ACT 2017, RULE 46 OF CGST RULE 2017 STATE GST ACT & RULE)</h6>
         </div>
-        <div class="email-body">
-            <p>Dear Customer,</p>
-            <p>We are pleased to share the details of service centers in your city. Below are the locations of service centers for your reference:</p>
-
-            <table class="service-center-table" id="serviceCenterTable">
-                <tr>
-                    <th>Service Center</th>
-                    <th>Contact Person</th>
-                    <th>Contact No</th>
-                    <th>City</th>
-                    <th>State</th>
-                    <th>Pincode</th>
-                    <th>Address</th>
-                </tr>
-            </table>
-
-            <p>Thank you for choosing our services!</p>
-        </div>
-        <div class="footer">
-            <p>&copy; 2025 Service Center | All Rights Reserved</p>
-        </div>
+      <div class="Main">
+         <div>
+            <img src="/private/files/Logo_Unique Lables.jpg" alt="Unique Labels Logo" style="width: 115px; height: 135px; margin:2px 5px 0px 2px;" />
+         </div>
+         <div>
+            <p style="font-weight: bold; color: black; font-size: 22px;">UNIQUE LABELS</p>
+            <p style="color: black; font-size:12px;">B-56, Sector- 88, Noida, Uttar Pradesh - 201305, INDIA</p>
+            <p style="color: black; font-size:13px;">Phone : 9899040250</p>
+            <p style="color: black; font-size:13px;">E-Mail: mail@uniquelabels.in</p>
+            <p style="color: black; font-size: 13px;">Website : www.uniquelabels.in</p>
+         </div>
+         <div style="">
+            {% if doc.irn %}
+            {% set e_invoice_log = frappe.db.get_value( "e-Invoice Log", doc.irn, ("invoice_data", "signed_qr_code"), as_dict=True ) %}
+            {% if e_invoice_log %}
+            {% set invoice_data = json.loads(e_invoice_log.invoice_data) %}
+            {% set date_format = frappe.db.get_single_value("System Settings",'date_format').replace("mm","MM") %}
+            <div style="">
+               <p style="padding-left:10px;margin-bottom:-5px;">Invoice Qr</p>
+               <div  style="width: 100px;">
+                  {{ web_block('e-Invoice QR', values={'e_invoice_qr_text': e_invoice_log.signed_qr_code }) }}
+               </div>
+            </div>
+            {% endif %}
+            {% endif %}
+         </div>
+      </div>
     </div>
+     <div class="first">
+         <p>&nbsp;GSTIN : &nbsp;<b>09ACLPJ4866E1ZB</b></p>
+         <p>PAN : <b>ACLPJ4866E</b></p>
+         <p>MSME No : <b>UDYAM-UP-28-0010734</b></p>
+         <p>TAN : <b>DELS63773D</b>&nbsp;&nbsp;</p>
+      </div>
+ <div class="Main-class-rajesh">
+  <div class="column">
+    <p>Invoice No. <b> :</b>  
+      {% if doc.name %}
+      <b>{{doc.name}}</b>
+      {% endif %}
+    </p>
+    <p>P.O. No. <b> :</b>
+      {% if doc.custom_customers_purchase_order %}
+      <b>{{doc.custom_customers_purchase_order}}</b>
+      {% endif %}
+    </p>
+    <p>Sales Order No <b> :</b>
+      {% if doc.custom_sales_order %}
+      <b>{{doc.custom_sales_order}}</b>
+      {% endif %}
+    </p>
+    <p>Delivery Note No <b> :</b>
+      {% if doc.delivery_note %}
+      <b>{{doc.delivery_note}}</b>
+      {% endif %}
+    </p>
+    <p>Due Date <b> :</b>
+      <b>{{ doc.get_formatted("due_date") }}</b>
+    </p>
+  </div>
 
-    <script>
-        const serviceCenters = [
-            {
-                "serviceCenter": "Center 1",
-                "contactPerson": "John Doe",
-                "contactNo": "1234567890",
-                "city": "City A",
-                "state": "State A",
-                "pincode": "123456",
-                "address": "123 Main St, City A, State A"
-            },
-            {
-                "serviceCenter": "Center 2",
-                "contactPerson": "Jane Smith",
-                "contactNo": "0987654321",
-                "city": "City B",
-                "state": "State B",
-                "pincode": "654321",
-                "address": "456 Elm St, City B, State B"
-            }
-            // Add more service centers as needed
-        ];
+  <div class="column">
+    <p>Invoice Date <b> :</b>
+      <b>{{ doc.get_formatted("posting_date") }}</b>
+    </p>
+    <p>P.O. Date <b>:</b>
+      <b>{{ doc.get_formatted("custom_customers_purchase_order_date") }}</b>
+    </p>
+    <p>Sales Order Date <b>:</b>
+      <b>{{ doc.get_formatted("custom_sales_order_date") }}</b>
+    </p>
+    <p>Delivery Note Date <b> :</b>
+      {% if doc.custom_sales_order_date %}
+      <b>{{doc.custom_delivery_date}}</b>
+      {% endif %}
+    </p>
+    <p>Reverse Charge <b>: N</b></p>
+  </div>
 
-        const table = document.getElementById('serviceCenterTable');
+  <div class="column">
+    <p>Despatched through <b> :</b>
+      {% if doc.transporter %}
+      <b>{{doc.transporter}}</b>
+      {% endif %}
+    </p>
+    <p>Mode of Transport <b> :</b>
+      {% if doc.mode_of_transport %}
+      <b>{{doc.mode_of_transport}}</b>
+      {% endif %}
+    </p>
+    <p>Transporter Name <b> :</b>
+      {% if doc.transporter %}
+      <b>{{doc.transporter}}</b>
+      {% endif %}
+    </p>
+    <p>Vehicle No. <b> :</b>
+      {% if doc.vehicle_no %}
+      <b>{{doc.vehicle_no}}</b>
+      {% endif %}
+    </p>
+    <p>Payment Terms <b>:</b>
+      {% if doc.payment_terms_template %}
+      <b>{{doc.payment_terms_template}}</b>
+      {% endif %}
+    </p>
+  </div>
+</div>
 
-        serviceCenters.forEach(center => {
-            const row = table.insertRow();
-            row.insertCell(0).textContent = center.serviceCenter;
-            row.insertCell(1).textContent = center.contactPerson;
-            row.insertCell(2).textContent = center.contactNo;
-            row.insertCell(3).textContent = center.city;
-            row.insertCell(4).textContent = center.state;
-            row.insertCell(5).textContent = center.pincode;
-            row.insertCell(6).textContent = center.address;
-        });
-    </script>
+<div class="Bill-Address" style="display: flex; justify-content: space-between; border:2px solid black">
+  <!-- Billing Address -->
+  <div style="flex: 1; padding-right: 20px; padding-left: 20px;">
+    <p>Buyer (Bill to)</p>
+    <p style="font-weight:bold; font-size:12px;">{{doc.customer}}</p>
+    <p style="margin-bottom:0!important;">{{doc.get_formatted("address_display", doc) }}</p>
+    {% if doc.company_gstin %}
+    <p style="margin-top:0!important;">GSTIN: {{doc.custom_customer_gstin}}</p>
+    {% endif %}
+  </div>
+
+  <!-- Shipping Address -->
+  <div style="flex: 1;  padding-left: 20px;">
+    <p>Consignee (Ship to)</p>
+    <p style="font-weight:bold; font-size:12px;">{{doc.customer}}</p>
+    <p>{{doc.get_formatted("shipping_address", doc) }}</p>
+    {% if doc.company_gstin %}
+    <p style="margin-top:0!important;">GSTIN: {{doc.custom_customer_gstin}}</p>
+    {% endif %}
+  </div>
+</div>
+
+ <div class="Supply">
+         <p>&nbsp;&nbsp;<b>Place of Supply :</b> 
+            {% if doc.place_of_supply %}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{doc.place_of_supply}}
+         </p>
+         {% endif %}
+      </div>
+
+      <table class="table-fixed" style="width: 100%; border-collapse: collapse; font-size: 10px; border: 1px solid black;">
+        <thead>
+            <tr>
+                <th style="width: 3%; border: 1px solid black; text-align: center; padding: 5px;">Sr.No.</th>
+                <th style="width: 15%; border: 1px solid black; text-align: center; padding: 5px;">Item Code</th>
+                <th style="width: 50%; border: 1px solid black; text-align: center; padding: 5px;">Description of Goods</th>
+                <th style="width: 10%; border: 1px solid black; text-align: center; padding: 5px;">HSN Code</th>
+                <th style="width: 10%; border: 1px solid black; text-align: center; padding: 5px;">Quantity</th>
+                <th style="width: 7%; border: 1px solid black; text-align: center; padding: 5px;">Rate (₹)</th>
+                <th style="width: 7%; border: 1px solid black; text-align: center; padding: 5px;">Per</th>
+                <th style="width: 10%; border: 1px solid black; text-align: center; padding: 5px;">Amount (₹)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in doc.items %}
+            <tr>
+                <td style="text-align: center; border: 1px solid black; padding: 5px;">{{ "" if "Freight" in row.description else loop.index }}</td>
+                <td style="text-align: center; border: 1px solid black; padding: 5px;">{{ "" if "Freight" in row.description else row.get_formatted("custom_item_classication_code", row) }}</td>
+                <td style="border: 1px solid black; padding: 5px;">{{ row.get_formatted("description", row) }}</td>
+                <td style="text-align: center; border: 1px solid black; padding: 5px;">{{ row.get_formatted("gst_hsn_code", row) }}</td>
+                <td style="text-align: right; border: 1px solid black; padding: 5px;">
+                    {{ "" if "Freight" in row.description else row.qty }}  {{ "" if "Freight" in row.description else row.uom }}
+                </td>
+                <td style="text-align: right; border: 1px solid black; padding: 5px;">{{ "%.2f"|format(row.rate) if "Freight" not in row.description else "" }}</td>
+                <td style="text-align: center; border: 1px solid black; padding: 5px;">{{ "" if "Freight" in row.description else row.uom }}</td>
+                <td style="text-align: right; border: 1px solid black; padding: 5px;">{{ "{:,.2f}".format(row.amount) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" style="text-align: right; border: 1px solid black; padding: 5px;"><b>Total :</b></td>
+                <td style="text-align: right; border: 1px solid black; padding: 5px;"><b>{{ "{:,.0f}".format(doc.total_qty) }}</b></td>
+                <td style="border: 1px solid black;"></td>
+                <td style="border: 1px solid black;"></td>
+                <td style="text-align: right; border: 1px solid black; padding: 5px;"><b>{{ "{:,.2f}".format(doc.total) }}</b></td>
+            </tr>
+            <tr>
+                <td colspan="3" rowspan="2" style="border-right: 2px solid white; padding: 5px;">
+                    <h6><u><b>Bank Details :</b></u></h6>
+                    <p><b>Account:</b> UNIQUE LABELS</p>
+                    <p><b>Bank Name:</b> KOTAK MAHINDRA BANK</p>
+                    <p><b>Branch:</b> OKHLA INDUSTRIAL AREA, Phase II</p>
+                    <p><b>Account No.:</b> 4411963824</p>
+                    <p><b>IFSC Code:</b> KKBK0000205</p>
+                </td>
+                <td colspan="5" style="text-align: right; border: 1px solid black; padding: 5px;"><b>Taxable Amount:</b> {{ "{:,.2f}".format(doc.custom_taxable_value) }}</td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: right; border: 1px solid black; padding: 5px;"><b>Total GST Amount:</b> {{ "{:,.2f}".format(doc.total_taxes_and_charges) }}</td>
+            </tr>
+            <tr>
+                <td colspan="4" style="border: 1px solid black; padding: 5px;"><b>IRN :</b> {{ doc.irn or '' }}</td>
+                <td colspan="4" style="border: 1px solid black;"></td>
+            </tr>
+            <tr>
+                <td colspan="4" style="border: 1px solid black; padding: 5px;"><b>E-Way Bill No :</b> {{ doc.ewaybill or "" }}</td>
+                <td colspan="4" style="text-align: right; border: 1px solid black; padding: 5px;"><b>Total Bill Amount ₹</b> {{ "{:,.2f}".format(doc.grand_total) }}</td>
+            </tr>
+            <tr>
+                <td colspan="8" style="border: 1px solid black; padding: 5px;"><b>Total Amount (in Words)</b> Rs. {{ doc.in_words }}</td>
+            </tr>
+        </tfoot>
+    </table>
 </body>
-</html>
+{% endif %}
+</html> 
